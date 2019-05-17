@@ -1,3 +1,10 @@
+/*
+    Path finding by Dijkstra algorithm
+    Ali Abdolazimi
+    Mohammad Amirdoost
+    Sajjad Moghayyad
+*/
+
 import gui.MainWindow;
 
 import javax.swing.*;
@@ -11,7 +18,7 @@ public class Main {
         } catch (Exception e) {  }
 
         JFrame j = new JFrame();
-        j.setTitle("Dijkstra Algorithm");
+        j.setTitle("Path finding by Dijkstra Algorithm");
 
         j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         j.setSize(new Dimension(900, 600));

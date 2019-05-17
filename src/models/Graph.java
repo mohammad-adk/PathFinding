@@ -1,5 +1,5 @@
 /*
-    path finding by Dijkstra algorithm
+    Path finding by Dijkstra algorithm
     Ali Abdolazimi
     Mohammad Amirdoost
     Sajjad Moghayyad
