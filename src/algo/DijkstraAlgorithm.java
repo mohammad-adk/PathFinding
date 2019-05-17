@@ -74,7 +74,7 @@ public class DijkstraAlgorithm {
             if(adjacent==null)
                 continue;
 
-            distances.put(adjacent, neighbor.getWeight());
+            distances.put(adjacent, neighbor.getWeight(source));
             predecessors.put(adjacent, source);
             unvisited.add(adjacent);
         }
@@ -105,7 +105,7 @@ public class DijkstraAlgorithm {
                 continue;
 
             int current_dist = distances.get(adjacent);
-            int new_dist = distance + neighbor.getWeight();
+            int new_dist = distance + neighbor.getWeight(node);
 
             if(new_dist < current_dist) {
                 distances.put(adjacent, new_dist);

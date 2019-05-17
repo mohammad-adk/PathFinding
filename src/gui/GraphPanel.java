@@ -129,12 +129,15 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
                 return;
             }
 
-            String input = JOptionPane.showInputDialog("Enter weight for " + hoveredEdge.toString()
+            String input1 = JOptionPane.showInputDialog("Enter weight for " + hoveredEdge.toString(1)
+                                                        + " : ");
+            String input2 = JOptionPane.showInputDialog("Enter weight for " + hoveredEdge.toString(2)
                                                         + " : ");
             try {
-                int weight = Integer.parseInt(input);
-                if (weight > 0) {
-                    hoveredEdge.setWeight(weight);
+                int weight1 = Integer.parseInt(input1);
+                int weight2 = Integer.parseInt(input2);
+                if (weight1 > 0 && weight2 > 0) {
+                    hoveredEdge.setWeight(weight1, weight2);
                     graph.setSolved(false);
                     repaint();
                 } else {
