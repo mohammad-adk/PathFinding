@@ -5,6 +5,8 @@ import models.Graph;
 import models.Node;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DijkstraAlgorithm {
     private boolean safe = false;
@@ -69,14 +71,18 @@ public class DijkstraAlgorithm {
         distances.put(source, 0);
         visited.add(source);
 
-        for (Edge neighbor : getNeighbors(source)){
-            Node adjacent = getAdjacent(neighbor, source);
-            if(adjacent==null)
-                continue;
-
-            distances.put(adjacent, neighbor.getWeight(source));
-            predecessors.put(adjacent, source);
-            unvisited.add(adjacent);
+        try {
+            for (Edge neighbor : getNeighbors(source)){
+                Node adjacent = getAdjacent(neighbor, source);
+                if(adjacent==null)
+                    continue;
+                
+                distances.put(adjacent, neighbor.getWeight(source));
+                predecessors.put(adjacent, source);
+                unvisited.add(adjacent);
+            }
+        } catch (Exception ex) {
+            throw new IllegalStateException(ex.getMessage());
         }
 
         while (!unvisited.isEmpty()){
@@ -99,19 +105,23 @@ public class DijkstraAlgorithm {
     private void updateDistance(Node node){
         int distance = distances.get(node);
 
-        for (Edge neighbor : getNeighbors(node)){
-            Node adjacent = getAdjacent(neighbor, node);
-            if(visited.contains(adjacent))
-                continue;
-
-            int current_dist = distances.get(adjacent);
-            int new_dist = distance + neighbor.getWeight(node);
-
-            if(new_dist < current_dist) {
-                distances.put(adjacent, new_dist);
-                predecessors.put(adjacent, node);
-                unvisited.add(adjacent);
+        try {
+            for (Edge neighbor : getNeighbors(node)){
+                Node adjacent = getAdjacent(neighbor, node);
+                if(visited.contains(adjacent))
+                    continue;
+                
+                int current_dist = distances.get(adjacent);
+                int new_dist = distance + neighbor.getWeight(node);
+                
+                if(new_dist < current_dist) {
+                    distances.put(adjacent, new_dist);
+                    predecessors.put(adjacent, node);
+                    unvisited.add(adjacent);
+                }
             }
+        } catch (Exception ex) {
+            throw new IllegalStateException(ex.getMessage());
         }
     }
 
@@ -122,13 +132,19 @@ public class DijkstraAlgorithm {
         return node==edge.getNodeTwo()?edge.getNodeOne():edge.getNodeTwo();
     }
 
-    private List<Edge> getNeighbors(Node node) {
+    private List<Edge> getNeighbors(Node node) throws Exception {
         List<Edge> neighbors = new ArrayList<>();
 
         for(Edge edge : graph.getEdges()){
-            if(edge.getNodeOne()==node ||edge.getNodeTwo()==node)
-                neighbors.add(edge);
+            System.out.println(edge.getWeight(2));
+            if((edge.getNodeOne()==node || edge.getNodeTwo()==node))
+                {       neighbors.add(edge);
+                }
+            else{ 
+                throw new Exception("There's no path from source to destination");
+                }
         }
+        
 
         return neighbors;
     }

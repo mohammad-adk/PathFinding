@@ -63,9 +63,10 @@ public class DrawUtils {
         int x = (from.x + to.x)/2;
         int y = (from.y + to.y)/2;
         
-        int rad = radius/2;
-        g.fillOval(x-rad, y-rad, 2*rad, 2*rad);
-        drawWeightText(String.valueOf(edge.getWeight(1)), x, y);
+        int rad = radius;
+        g.fillRoundRect(x-2*rad, y-rad, 4*rad, 2*rad, 15, 15);
+        drawWeightText(edge.toString(1) + ": " + String.valueOf(edge.getWeight(1)), x, y-10);
+        drawWeightText(edge.toString(2) + ": " + (edge.getWeight(2) == Integer.MAX_VALUE ? "0" : String.valueOf(edge.getWeight(2))), x, y+10);
     }
 
     public void drawPath(java.util.List<Node> path) {
@@ -97,8 +98,8 @@ public class DrawUtils {
         int x = (from.x + to.x)/2;
         int y = (from.y + to.y)/2;
 
-        int rad = 13;
-        g.fillOval(x-rad, y-rad, 2*rad, 2*rad);
+        int rad = 23;
+        g.fillRoundRect(x-2*rad+3, y-rad, 4*rad-6, 2*rad, 20, 20);
     }
 
     public void drawEdge(Edge edge) {

@@ -140,6 +140,10 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
                     hoveredEdge.setWeight(weight1, weight2);
                     graph.setSolved(false);
                     repaint();
+                } else if(weight1 == 0 || weight2 == 0){
+                    hoveredEdge.setWeight(weight1 == 0 ? Integer.MAX_VALUE : weight1, weight2 == 0 ? Integer.MAX_VALUE : weight2);
+                    graph.setSolved(false);
+                    repaint();
                 } else {
                     JOptionPane.showMessageDialog(null, "Weight should be positive");
                 }

@@ -53,14 +53,12 @@ public class Edge {
 //                + getNodeTwo().getId();
 //    }
     
-    public String toString(int path) {
-        if(path == 1)
-            return "Edge ~ "
-                    + getNodeOne().getId() + " - "
-                    + getNodeTwo().getId();
+    public String toString(int source) {
+        if(source == 1)
+            return getNodeOne().getId() + " - "
+                   + getNodeTwo().getId();
         else
-            return "Edge ~ "
-                    + getNodeTwo().getId() + " - "
-                    + getNodeOne().getId();
+            return getNodeTwo().getId() + " - "
+                   + getNodeOne().getId();
     }
 }
