@@ -40,7 +40,7 @@ public class Graph {
 
     public boolean isNodeReachable(Node node){
         for(Edge edge : edges)
-            if(node == edge.getNodeOne() || node == edge.getNodeTwo())
+            if(node == edge.getSourceNode() || node == edge.getDestinationNode())
                 return true;
 
         return false;

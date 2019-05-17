@@ -43,8 +43,8 @@ public class DrawUtils {
     public static boolean isOnEdge(MouseEvent e, Edge edge) {
 
         int dist = distToSegment( e.getPoint(),
-                                  edge.getNodeOne().getCoord(),
-                                  edge.getNodeTwo().getCoord() );
+                                  edge.getSourceNode().getCoord(),
+                                  edge.getDestinationNode().getCoord() );
         if (dist<6)
             return true;
         return false;
@@ -58,15 +58,15 @@ public class DrawUtils {
     }
 
     public void drawWeight(Edge edge) {
-        Point from = edge.getNodeOne().getCoord();
-        Point to = edge.getNodeTwo().getCoord();
+        Point from = edge.getSourceNode().getCoord();
+        Point to = edge.getDestinationNode().getCoord();
         int x = (from.x + to.x)/2;
         int y = (from.y + to.y)/2;
         
         int rad = radius;
         g.fillRoundRect(x-2*rad, y-rad, 4*rad, 2*rad, 15, 15);
-        drawWeightText(edge.toString(1) + ": " + String.valueOf(edge.getWeight(1)), x, y-10);
-        drawWeightText(edge.toString(2) + ": " + (edge.getWeight(2) == Integer.MAX_VALUE ? "0" : String.valueOf(edge.getWeight(2))), x, y+10);
+        drawWeightText(edge.toString(1) + ": " + (edge.getWeight(edge.getSourceNode()) == Integer.MAX_VALUE ? "0" : String.valueOf(edge.getWeight(edge.getSourceNode()))), x, y-10);
+        drawWeightText(edge.toString(2) + ": " + (edge.getWeight(edge.getDestinationNode()) == Integer.MAX_VALUE ? "0" : String.valueOf(edge.getWeight(edge.getDestinationNode()))), x, y+10);
     }
 
     public void drawPath(java.util.List<Node> path) {
@@ -91,8 +91,8 @@ public class DrawUtils {
     }
 
     private void drawBoldEdge(Edge edge){
-        Point from = edge.getNodeOne().getCoord();
-        Point to = edge.getNodeTwo().getCoord();
+        Point from = edge.getSourceNode().getCoord();
+        Point to = edge.getDestinationNode().getCoord();
         g.setStroke(new BasicStroke(8));
         g.drawLine(from.x, from.y, to.x, to.y);
         int x = (from.x + to.x)/2;
@@ -109,8 +109,8 @@ public class DrawUtils {
     }
 
     private void drawBaseEdge(Edge edge){
-        Point from = edge.getNodeOne().getCoord();
-        Point to = edge.getNodeTwo().getCoord();
+        Point from = edge.getSourceNode().getCoord();
+        Point to = edge.getDestinationNode().getCoord();
         g.setStroke(new BasicStroke(3));
         g.drawLine(from.x, from.y, to.x, to.y);
     }
