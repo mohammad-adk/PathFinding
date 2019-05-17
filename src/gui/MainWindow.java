@@ -1,3 +1,10 @@
+/*
+    path finding by Dijkstra algorithm
+    Ali Abdolazimi
+    Mohammad Amirdoost
+    Sajjad Moghayyad
+*/
+
 package gui;
 
 import algo.DijkstraAlgorithm;

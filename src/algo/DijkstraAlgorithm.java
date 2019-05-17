@@ -1,3 +1,10 @@
+/*
+    path finding by Dijkstra algorithm
+    Ali Abdolazimi
+    Mohammad Amirdoost
+    Sajjad Moghayyad
+*/
+
 package algo;
 
 import models.Edge;
