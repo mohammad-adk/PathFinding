@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Mohammad/Documents/NetBeansProjects/JavaApplication1/src/gui/GraphPanel.java</file>
-            <file>file:/C:/Users/Mohammad/Documents/NetBeansProjects/JavaApplication1/src/gui/MainWindow.java</file>
-            <file>file:/C:/Users/Mohammad/Documents/NetBeansProjects/JavaApplication1/src/models/Edge.java</file>
-            <file>file:/C:/Users/Mohammad/Documents/NetBeansProjects/JavaApplication1/src/gui/DrawUtils.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/models/Graph.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/gui/DrawUtils.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/gui/MainWindow.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/algo/DijkstraAlgorithm.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/models/Edge.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/gui/GraphPanel.java</file>
         </group>
     </open-files>
 </project-private>

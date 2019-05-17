@@ -39,11 +39,18 @@ public class Graph {
     }
 
     public boolean isNodeReachable(Node node){
-        for(Edge edge : edges)
-            if(node == edge.getSourceNode() || node == edge.getDestinationNode())
-                return true;
-
-        return false;
+        boolean isSource= false;
+        boolean isdestination = false;
+        for(Edge edge : edges){
+            if((node == edge.getSourceNode() && edge.getWeight(1) != Integer.MAX_VALUE) || (node == edge.getDestinationNode() && edge.getWeight(2) != Integer.MAX_VALUE))
+                isSource = true;
+            if((node == edge.getSourceNode() && edge.getWeight(2) != Integer.MAX_VALUE) || (node == edge.getDestinationNode() && edge.getWeight(1) != Integer.MAX_VALUE))
+                isdestination = true;
+            if(isSource && isdestination)
+                break;
+        }
+        
+        return isSource && isdestination;
     }
 
     public void setSource(Node node){
