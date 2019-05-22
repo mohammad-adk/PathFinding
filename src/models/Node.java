@@ -13,7 +13,7 @@ import java.util.List;
 public class Node {
     private Point coord = new Point();
     private int id;
-    private java.util.List<Node> path;
+    private List<Node> path;
 
     public Node(){}
 

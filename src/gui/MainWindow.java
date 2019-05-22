@@ -7,6 +7,7 @@
 
 package gui;
 
+import algo.DPAlgorithmTSP;
 import algo.DijkstraAlgorithm;
 import models.Graph;
 
@@ -53,8 +54,12 @@ public class MainWindow extends JPanel {
     }
 
     private void setButtons(){
-        JButton run = new JButton();
-        setupIcon(run, "run");
+        JButton runPathFinder = new JButton();
+        setupIcon(runPathFinder, "run");
+        runPathFinder.setToolTipText("run path finder");
+        JButton runTSP = new JButton();
+        setupIcon(runTSP, "run1");
+        runTSP.setToolTipText("run TSP solver");
         JButton reset = new JButton();
         setupIcon(reset, "reset");
         final JButton info = new JButton();
@@ -63,7 +68,8 @@ public class MainWindow extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(DrawUtils.parseColor("#DDDDDD"));
         buttonPanel.add(reset);
-        buttonPanel.add(run);
+        buttonPanel.add(runPathFinder);
+        buttonPanel.add(runTSP);
         buttonPanel.add(info);
 
         reset.addActionListener(new ActionListener() {
@@ -89,7 +95,20 @@ public class MainWindow extends JPanel {
             }
         });
 
-        run.addActionListener(new ActionListener() {
+        runTSP.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DPAlgorithmTSP DPAlgorithmTSP = new DPAlgorithmTSP(graph);
+                try{
+                    DPAlgorithmTSP.run();
+                    graphPanel.setPath(DPAlgorithmTSP.getPath());
+                } catch (IllegalStateException ise){
+                    JOptionPane.showMessageDialog(null, ise.getMessage());
+                }
+            }
+        });
+        
+        runPathFinder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm(graph);

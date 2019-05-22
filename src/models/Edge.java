@@ -10,8 +10,7 @@ package models;
 public class Edge {
     private Node source;
     private Node destination;
-    private int weight1_2 = 1;
-    private int weight2_1 = Integer.MAX_VALUE;
+    private int weight = 1;
 
     public Edge(Node source, Node destination){
         this.source = source;
@@ -26,23 +25,12 @@ public class Edge {
         return destination;
     }
 
-    public void setWeight(int weight1, int weight2){
-        this.weight1_2 = weight1;
-        this.weight2_1 = weight2;
+    public void setWeight(int weight){
+        this.weight = weight;
     }
 
-    public int getWeight(Node source){
-        if(this.source == source)
-            return weight1_2;
-        else
-            return weight2_1;
-    }
-    
-    public int getWeight(int source){
-        if(source == 1)
-            return weight1_2;
-        else
-            return weight2_1;
+    public int getWeight(){
+        return weight;
     }
 
     public boolean hasNode(Node node){
@@ -53,12 +41,8 @@ public class Edge {
         return (source ==edge.source && destination ==edge.destination) || (source ==edge.destination && destination ==edge.source) ;
     }
     
-    public String toString(int source) {
-        if(source == 1)
-            return getSourceNode().getId() + " - "
-                   + getDestinationNode().getId();
-        else
-            return getDestinationNode().getId() + " - "
-                   + getSourceNode().getId();
+    public String toString() {
+        return getSourceNode().getId() + " - "
+               + getDestinationNode().getId();
     }
 }

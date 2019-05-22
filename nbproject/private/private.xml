@@ -8,8 +8,9 @@
             <file>file:/D:/University/Projects/PathFinding/src/gui/DrawUtils.java</file>
             <file>file:/D:/University/Projects/PathFinding/src/Main.java</file>
             <file>file:/D:/University/Projects/PathFinding/src/gui/MainWindow.java</file>
-            <file>file:/D:/University/Projects/PathFinding/src/algo/DijkstraAlgorithm.java</file>
             <file>file:/D:/University/Projects/PathFinding/src/models/Edge.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/algo/DijkstraAlgorithm.java</file>
+            <file>file:/D:/University/Projects/PathFinding/src/algo/DPAlgorithmTSP.java</file>
             <file>file:/D:/University/Projects/PathFinding/src/gui/GraphPanel.java</file>
         </group>
     </open-files>

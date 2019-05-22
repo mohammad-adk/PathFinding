@@ -7,7 +7,7 @@
 
 package algo;
 
-import models.Edge;
+import models.DirectedEdge;
 import models.Graph;
 import models.Node;
 
@@ -76,7 +76,7 @@ public class DijkstraAlgorithm {
         distances.put(source, 0);
         visited.add(source);
 
-        for (Edge neighbor : getNeighbors(source)){
+        for (DirectedEdge neighbor : getNeighbors(source)){
             Node adjacent = getAdjacent(neighbor, source);
             if(adjacent==null)
                 continue;
@@ -106,7 +106,7 @@ public class DijkstraAlgorithm {
     private void updateDistance(Node node){
         int distance = distances.get(node);
 
-        for (Edge neighbor : getNeighbors(node)){
+        for (DirectedEdge neighbor : getNeighbors(node)){
             Node adjacent = getAdjacent(neighbor, node);
             if(visited.contains(adjacent))
                 continue;
@@ -122,17 +122,17 @@ public class DijkstraAlgorithm {
         }
     }
 
-    private Node getAdjacent(Edge edge, Node node) {
+    private Node getAdjacent(DirectedEdge edge, Node node) {
         if(edge.getSourceNode()!=node && edge.getDestinationNode()!=node)
             return null;
 
         return node==edge.getDestinationNode()?edge.getSourceNode():edge.getDestinationNode();
     }
 
-    private List<Edge> getNeighbors(Node node) {
-        List<Edge> neighbors = new ArrayList<>();
+    private List<DirectedEdge> getNeighbors(Node node) {
+        List<DirectedEdge> neighbors = new ArrayList<>();
 
-        for(Edge edge : graph.getEdges())
+        for(DirectedEdge edge : graph.getEdges())
             if(edge.getSourceNode()==node || edge.getDestinationNode()==node)
                 neighbors.add(edge);
 
@@ -165,5 +165,4 @@ public class DijkstraAlgorithm {
 
         return path;
     }
-
 }

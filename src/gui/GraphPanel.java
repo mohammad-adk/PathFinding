@@ -7,7 +7,7 @@
 
 package gui;
 
-import models.Edge;
+import models.DirectedEdge;
 import models.Graph;
 import models.Node;
 
@@ -28,7 +28,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
     private Node selectedNode = null;
     private Node hoveredNode = null;
-    private Edge hoveredEdge = null;
+    private DirectedEdge hoveredEdge = null;
 
     private java.util.List<Node> path = null;
 
@@ -44,6 +44,8 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     public void setPath(List<Node> path) {
         this.path = path;
         hoveredEdge = null;
+        for(Node node:path)
+            System.out.println(node.getId());
         repaint();
     }
 
@@ -64,11 +66,11 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         }
 
         if(selectedNode != null && cursor != null){
-            Edge e = new Edge(selectedNode, new Node(cursor));
+            DirectedEdge e = new DirectedEdge(selectedNode, new Node(cursor));
             drawUtils.drawEdge(e);
         }
 
-        for(Edge edge : graph.getEdges()){
+        for(DirectedEdge edge : graph.getEdges()){
             if(edge == hoveredEdge)
                 drawUtils.drawHoveredEdge(edge);
             drawUtils.drawEdge(edge);
@@ -185,7 +187,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     public void mouseReleased(MouseEvent e) {
         for (Node node : graph.getNodes()) {
             if(selectedNode !=null && node!= selectedNode && DrawUtils.isWithinBounds(e, node.getCoord())){
-                Edge new_edge = new Edge(selectedNode, node);
+                DirectedEdge new_edge = new DirectedEdge(selectedNode, node);
                 graph.addEdge(new_edge);
                 graph.setSolved(false);
             }
@@ -244,7 +246,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
         hoveredEdge = null;
 
-        for (Edge edge : graph.getEdges()) {
+        for (DirectedEdge edge : graph.getEdges()) {
             if(DrawUtils.isOnEdge(e, edge)) {
                 hoveredEdge = edge;
             }

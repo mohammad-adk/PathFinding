@@ -14,7 +14,7 @@ import java.util.List;
 public class Graph {
     private int count = 1;
     private List<Node> nodes = new ArrayList<>();
-    private List<Edge> edges = new ArrayList<>();
+    private List<DirectedEdge> edges = new ArrayList<>();
 
     private Node source;
     private Node destination;
@@ -37,18 +37,18 @@ public class Graph {
         return nodes;
     }
 
-    public void setEdges(List<Edge> edges){
+    public void setEdges(List<DirectedEdge> edges){
         this.edges = edges;
     }
 
-    public List<Edge> getEdges(){
+    public List<DirectedEdge> getEdges(){
         return edges;
     }
 
     public boolean isNodeReachable(Node node){
         boolean isSource= false;
         boolean isdestination = false;
-        for(Edge edge : edges){
+        for(DirectedEdge edge : edges){
             if((node == edge.getSourceNode() && edge.getWeight(1) != Integer.MAX_VALUE) || (node == edge.getDestinationNode() && edge.getWeight(2) != Integer.MAX_VALUE))
                 isSource = true;
             if((node == edge.getSourceNode() && edge.getWeight(2) != Integer.MAX_VALUE) || (node == edge.getDestinationNode() && edge.getWeight(1) != Integer.MAX_VALUE))
@@ -98,9 +98,9 @@ public class Graph {
             source = node;
     }
 
-    public void addEdge(Edge new_edge){
+    public void addEdge(DirectedEdge new_edge){
         boolean added = false;
-        for(Edge edge : edges){
+        for(DirectedEdge edge : edges){
             if(edge.equals(new_edge)){
                 added = true;
                 break;
@@ -111,13 +111,13 @@ public class Graph {
     }
 
     public void deleteNode(Node node){
-        List<Edge> delete = new ArrayList<>();
-        for (Edge edge : edges){
+        List<DirectedEdge> delete = new ArrayList<>();
+        for (DirectedEdge edge : edges){
             if(edge.hasNode(node)){
                 delete.add(edge);
             }
         }
-        for (Edge edge : delete){
+        for (DirectedEdge edge : delete){
             edges.remove(edge);
         }
         nodes.remove(node);

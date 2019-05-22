@@ -7,7 +7,7 @@
 
 package gui;
 
-import models.Edge;
+import models.DirectedEdge;
 import models.Node;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -47,7 +47,7 @@ public class DrawUtils {
         return (x <= boundX + 2.5*radius && x >= boundX - 2.5*radius) && (y <= boundY + 2.5*radius && y >= boundY - 2.5*radius);
     }
 
-    public static boolean isOnEdge(MouseEvent e, Edge edge) {
+    public static boolean isOnEdge(MouseEvent e, DirectedEdge edge) {
 
         int dist = distToSegment( e.getPoint(),
                                   edge.getSourceNode().getCoord(),
@@ -64,7 +64,7 @@ public class DrawUtils {
                 Integer.valueOf(colorStr.substring(5, 7), 16));
     }
 
-    public void drawWeight(Edge edge) {
+    public void drawWeight(DirectedEdge edge) {
         Point from = edge.getSourceNode().getCoord();
         Point to = edge.getDestinationNode().getCoord();
         int x = (from.x + to.x)/2;
@@ -77,27 +77,27 @@ public class DrawUtils {
     }
 
     public void drawPath(java.util.List<Node> path) {
-        List<Edge> edges = new ArrayList<>();
+        List<DirectedEdge> edges = new ArrayList<>();
         for(int i = 0; i < path.size()-1; i++) {
-            edges.add(new Edge(path.get(i), path.get(i+1)));
+            edges.add(new DirectedEdge(path.get(i), path.get(i+1)));
         }
 
-        for(Edge edge : edges) {
+        for(DirectedEdge edge : edges) {
             drawPath(edge);
         }
     }
 
-    public void drawPath(Edge edge) {
+    public void drawPath(DirectedEdge edge) {
         g.setColor(parseColor("#00BCD4"));
         drawBoldEdge(edge);
     }
 
-    public void drawHoveredEdge(Edge edge) {
+    public void drawHoveredEdge(DirectedEdge edge) {
         g.setColor(parseColor("#E1BEE7"));
         drawBoldEdge(edge);
     }
 
-    private void drawBoldEdge(Edge edge){
+    private void drawBoldEdge(DirectedEdge edge){
         Point from = edge.getSourceNode().getCoord();
         Point to = edge.getDestinationNode().getCoord();
         g.setStroke(new BasicStroke(8));
@@ -109,13 +109,13 @@ public class DrawUtils {
         g.fillRoundRect(x-2*rad+3, y-rad, 4*rad-6, 2*rad, 20, 20);
     }
 
-    public void drawEdge(Edge edge) {
+    public void drawEdge(DirectedEdge edge) {
         g.setColor(parseColor("#555555"));
         drawBaseEdge(edge);
         drawWeight(edge);
     }
 
-    private void drawBaseEdge(Edge edge){
+    private void drawBaseEdge(DirectedEdge edge){
         Point from = edge.getSourceNode().getCoord();
         Point to = edge.getDestinationNode().getCoord();
         g.setStroke(new BasicStroke(3));
