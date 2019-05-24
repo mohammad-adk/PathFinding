@@ -7,8 +7,8 @@
 
 package gui;
 
-import models.DirectedEdge;
-import models.Graph;
+import models.Edge;
+import models.UndirectedGraph;
 import models.Node;
 
 import javax.swing.*;
@@ -16,25 +16,24 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.*;
 import java.util.List;
 
 
-public class GraphPanel extends JPanel implements MouseListener, MouseMotionListener {
+public class UndirectedGraphPanel extends JPanel implements MouseListener, MouseMotionListener {
 
-    private DrawUtils drawUtils;
+    private TSPDrawUtils drawUtils;
 
-    private Graph graph;
+    private UndirectedGraph graph;
 
     private Node selectedNode = null;
     private Node hoveredNode = null;
-    private DirectedEdge hoveredEdge = null;
+    private Edge hoveredEdge = null;
 
     private java.util.List<Node> path = null;
 
     private Point cursor;
 
-    public GraphPanel(Graph graph){
+    public UndirectedGraphPanel(UndirectedGraph graph){
         this.graph = graph;
 
         addMouseListener(this);
@@ -44,8 +43,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     public void setPath(List<Node> path) {
         this.path = path;
         hoveredEdge = null;
-        for(Node node:path)
-            System.out.println(node.getId());
+        
         repaint();
     }
 
@@ -59,18 +57,18 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        drawUtils = new DrawUtils(graphics2d);
+        drawUtils = new TSPDrawUtils(graphics2d);
 
         if(graph.isSolved()){
             drawUtils.drawPath(path);
         }
 
         if(selectedNode != null && cursor != null){
-            DirectedEdge e = new DirectedEdge(selectedNode, new Node(cursor));
+            Edge e = new Edge(selectedNode, new Node(cursor));
             drawUtils.drawEdge(e);
         }
 
-        for(DirectedEdge edge : graph.getEdges()){
+        for(Edge edge : graph.getEdges()){
             if(edge == hoveredEdge)
                 drawUtils.drawHoveredEdge(edge);
             drawUtils.drawEdge(edge);
@@ -93,7 +91,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
         Node selected = null;
         for(Node node : graph.getNodes()) {
-            if(DrawUtils.isWithinBounds(e, node.getCoord())){
+            if(PathFindingDrawUtils.isWithinBounds(e, node.getCoord())){
                 selected = node;
                 break;
             }
@@ -138,19 +136,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
                 return;
             }
 
-            String input1 = JOptionPane.showInputDialog("Enter weight for " + hoveredEdge.toString(1)
-                                                        + " : ");
-            String input2 = JOptionPane.showInputDialog("Enter weight for " + hoveredEdge.toString(2)
+            String input = JOptionPane.showInputDialog("Enter weight for " + hoveredEdge.toString()
                                                         + " : ");
             try {
-                int weight1 = Integer.parseInt(input1);
-                int weight2 = Integer.parseInt(input2);
-                if (weight1 > 0 && weight2 > 0) {
-                    hoveredEdge.setWeight(weight1, weight2);
-                    graph.setSolved(false);
-                    repaint();
-                } else if(weight1 == 0 || weight2 == 0){
-                    hoveredEdge.setWeight(weight1 == 0 ? Integer.MAX_VALUE : weight1, weight2 == 0 ? Integer.MAX_VALUE : weight2);
+                int weight = Integer.parseInt(input);
+                if (weight > 0) {
+                    hoveredEdge.setWeight(weight);
                     graph.setSolved(false);
                     repaint();
                 } else {
@@ -161,16 +152,16 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         }
 
         for(Node node : graph.getNodes()) {
-            if(DrawUtils.isOverlapping(e, node.getCoord())){
+            if(PathFindingDrawUtils.isOverlapping(e, node.getCoord())){
                 JOptionPane.showMessageDialog(null, "Overlapping Node can't be created");
                 return;
             }
         }
 
-        if (e.getX() + DrawUtils.getRadius() >= this.getBounds().width || 
-                e.getY() + DrawUtils.getRadius() >= this.getBounds().height ||
-                e.getX() - DrawUtils.getRadius() <= 0 ||
-                e.getY() - DrawUtils.getRadius() <= 0 )
+        if (e.getX() + PathFindingDrawUtils.getRadius() >= this.getBounds().width || 
+                e.getY() + PathFindingDrawUtils.getRadius() >= this.getBounds().height ||
+                e.getX() - PathFindingDrawUtils.getRadius() <= 0 ||
+                e.getY() - PathFindingDrawUtils.getRadius() <= 0 )
             return;
         
         graph.addNode(e.getPoint());
@@ -186,8 +177,8 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     @Override
     public void mouseReleased(MouseEvent e) {
         for (Node node : graph.getNodes()) {
-            if(selectedNode !=null && node!= selectedNode && DrawUtils.isWithinBounds(e, node.getCoord())){
-                DirectedEdge new_edge = new DirectedEdge(selectedNode, node);
+            if(selectedNode !=null && node!= selectedNode && PathFindingDrawUtils.isWithinBounds(e, node.getCoord())){
+                Edge new_edge = new Edge(selectedNode, node);
                 graph.addEdge(new_edge);
                 graph.setSolved(false);
             }
@@ -212,9 +203,9 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         hoveredNode = null;
 
         for (Node node : graph.getNodes()) {
-            if(selectedNode ==null && DrawUtils.isWithinBounds(e, node.getCoord())){
+            if(selectedNode ==null && PathFindingDrawUtils.isWithinBounds(e, node.getCoord())){
                 selectedNode = node;
-            } else if(DrawUtils.isWithinBounds(e, node.getCoord())) {
+            } else if(PathFindingDrawUtils.isWithinBounds(e, node.getCoord())) {
                 hoveredNode = node;
             }
         }
@@ -238,7 +229,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         if(e.isControlDown()){
             hoveredNode = null;
             for (Node node : graph.getNodes()) {
-                if(DrawUtils.isWithinBounds(e, node.getCoord())) {
+                if(PathFindingDrawUtils.isWithinBounds(e, node.getCoord())) {
                     hoveredNode = node;
                 }
             }
@@ -246,8 +237,8 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
         hoveredEdge = null;
 
-        for (DirectedEdge edge : graph.getEdges()) {
-            if(DrawUtils.isOnEdge(e, edge)) {
+        for (Edge edge : graph.getEdges()) {
+            if(TSPDrawUtils.isOnEdge(e, edge)) {
                 hoveredEdge = edge;
             }
         }

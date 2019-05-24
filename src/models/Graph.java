@@ -11,15 +11,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Graph {
-    private int count = 1;
-    private List<Node> nodes = new ArrayList<>();
-    private List<DirectedEdge> edges = new ArrayList<>();
+public class Graph<T> {
+    protected int count = 1;
+    protected List<Node> nodes = new ArrayList<>();
+    protected List<T> edges = new ArrayList<>();
 
-    private Node source;
-    private Node destination;
+    protected Node source;
+    protected Node destination;
 
-    private boolean solved = false;
+    protected boolean solved = false;
 
     public void setSolved(boolean solved) {
         this.solved = solved;
@@ -37,28 +37,15 @@ public class Graph {
         return nodes;
     }
 
-    public void setEdges(List<DirectedEdge> edges){
+    public void setEdges(List<T> edges){
         this.edges = edges;
     }
 
-    public List<DirectedEdge> getEdges(){
+    public List<T> getEdges(){
         return edges;
     }
 
-    public boolean isNodeReachable(Node node){
-        boolean isSource= false;
-        boolean isdestination = false;
-        for(DirectedEdge edge : edges){
-            if((node == edge.getSourceNode() && edge.getWeight(1) != Integer.MAX_VALUE) || (node == edge.getDestinationNode() && edge.getWeight(2) != Integer.MAX_VALUE))
-                isSource = true;
-            if((node == edge.getSourceNode() && edge.getWeight(2) != Integer.MAX_VALUE) || (node == edge.getDestinationNode() && edge.getWeight(1) != Integer.MAX_VALUE))
-                isdestination = true;
-            if(isSource && isdestination)
-                break;
-        }
-        
-        return isSource && isdestination;
-    }
+    public boolean isNodeReachable(Node node){return false;}
 
     public void setSource(Node node){
         if(nodes.contains(node))
@@ -98,30 +85,9 @@ public class Graph {
             source = node;
     }
 
-    public void addEdge(DirectedEdge new_edge){
-        boolean added = false;
-        for(DirectedEdge edge : edges){
-            if(edge.equals(new_edge)){
-                added = true;
-                break;
-            }
-        }
-        if(!added)
-            edges.add(new_edge);
-    }
+    public void addEdge(T new_edge){}
 
-    public void deleteNode(Node node){
-        List<DirectedEdge> delete = new ArrayList<>();
-        for (DirectedEdge edge : edges){
-            if(edge.hasNode(node)){
-                delete.add(edge);
-            }
-        }
-        for (DirectedEdge edge : delete){
-            edges.remove(edge);
-        }
-        nodes.remove(node);
-    }
+    public void deleteNode(Node node){}
 
     public void clear(){
         count = 1;

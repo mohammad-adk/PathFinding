@@ -7,14 +7,14 @@
 
 package gui;
 
-import models.DirectedEdge;
+import models.Edge;
 import models.Node;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
-public class DrawUtils {
+public class TSPDrawUtils {
     private Graphics2D g;
     private static int radius = 20;
     
@@ -22,7 +22,7 @@ public class DrawUtils {
         return radius;
     }
 
-    public DrawUtils(Graphics2D graphics2D){
+    public TSPDrawUtils(Graphics2D graphics2D){
         g = graphics2D;
     }
 
@@ -47,7 +47,7 @@ public class DrawUtils {
         return (x <= boundX + 2.5*radius && x >= boundX - 2.5*radius) && (y <= boundY + 2.5*radius && y >= boundY - 2.5*radius);
     }
 
-    public static boolean isOnEdge(MouseEvent e, DirectedEdge edge) {
+    public static boolean isOnEdge(MouseEvent e, Edge edge) {
 
         int dist = distToSegment( e.getPoint(),
                                   edge.getSourceNode().getCoord(),
@@ -64,40 +64,39 @@ public class DrawUtils {
                 Integer.valueOf(colorStr.substring(5, 7), 16));
     }
 
-    public void drawWeight(DirectedEdge edge) {
+    public void drawWeight(Edge edge) {
         Point from = edge.getSourceNode().getCoord();
         Point to = edge.getDestinationNode().getCoord();
         int x = (from.x + to.x)/2;
         int y = (from.y + to.y)/2;
         
-        int rad = radius;
-        g.fillRoundRect(x-2*rad, y-rad, 4*rad, 2*rad, 15, 15);
-        drawWeightText(edge.toString(1) + ": " + (edge.getWeight(edge.getSourceNode()) == Integer.MAX_VALUE ? "0" : String.valueOf(edge.getWeight(edge.getSourceNode()))), x, y-10);
-        drawWeightText(edge.toString(2) + ": " + (edge.getWeight(edge.getDestinationNode()) == Integer.MAX_VALUE ? "0" : String.valueOf(edge.getWeight(edge.getDestinationNode()))), x, y+10);
+        int rad = radius/2;
+        g.fillOval(x-rad, y-rad, rad*2, rad*2);
+        drawWeightText(edge.getWeight()+"", x, y);
     }
 
     public void drawPath(java.util.List<Node> path) {
-        List<DirectedEdge> edges = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
         for(int i = 0; i < path.size()-1; i++) {
-            edges.add(new DirectedEdge(path.get(i), path.get(i+1)));
+            edges.add(new Edge(path.get(i), path.get(i+1)));
         }
 
-        for(DirectedEdge edge : edges) {
+        for(Edge edge : edges) {
             drawPath(edge);
         }
     }
 
-    public void drawPath(DirectedEdge edge) {
+    public void drawPath(Edge edge) {
         g.setColor(parseColor("#00BCD4"));
         drawBoldEdge(edge);
     }
 
-    public void drawHoveredEdge(DirectedEdge edge) {
+    public void drawHoveredEdge(Edge edge) {
         g.setColor(parseColor("#E1BEE7"));
         drawBoldEdge(edge);
     }
 
-    private void drawBoldEdge(DirectedEdge edge){
+    private void drawBoldEdge(Edge edge){
         Point from = edge.getSourceNode().getCoord();
         Point to = edge.getDestinationNode().getCoord();
         g.setStroke(new BasicStroke(8));
@@ -105,17 +104,17 @@ public class DrawUtils {
         int x = (from.x + to.x)/2;
         int y = (from.y + to.y)/2;
 
-        int rad = 23;
-        g.fillRoundRect(x-2*rad+3, y-rad, 4*rad-6, 2*rad, 20, 20);
+        int rad = 13;
+        g.fillOval(x-rad, y-rad, rad*2, rad*2);
     }
 
-    public void drawEdge(DirectedEdge edge) {
+    public void drawEdge(Edge edge) {
         g.setColor(parseColor("#555555"));
         drawBaseEdge(edge);
         drawWeight(edge);
     }
 
-    private void drawBaseEdge(DirectedEdge edge){
+    private void drawBaseEdge(Edge edge){
         Point from = edge.getSourceNode().getCoord();
         Point to = edge.getDestinationNode().getCoord();
         g.setStroke(new BasicStroke(3));

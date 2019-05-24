@@ -7,23 +7,12 @@
 
 package models;
 
-public class DirectedEdge {
-    private Node source;
-    private Node destination;
+public class DirectedEdge extends Edge {
     private int weight1_2 = 1;
     private int weight2_1 = Integer.MAX_VALUE;
 
-    public DirectedEdge(Node source, Node destination){
-        this.source = source;
-        this.destination = destination;
-    }
-
-    public Node getSourceNode(){
-        return source;
-    }
-
-    public Node getDestinationNode(){
-        return destination;
+    public DirectedEdge(Node source, Node destination) {
+        super(source, destination);
     }
 
     public void setWeight(int weight1, int weight2){
@@ -43,10 +32,6 @@ public class DirectedEdge {
             return weight1_2;
         else
             return weight2_1;
-    }
-
-    public boolean hasNode(Node node){
-        return source==node || destination==node;
     }
 
     public boolean equals(DirectedEdge edge) {

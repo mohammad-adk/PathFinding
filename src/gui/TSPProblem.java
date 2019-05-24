@@ -7,6 +7,9 @@
 
 package gui;
 
+import algo.DPAlgorithmTSP;
+import models.UndirectedGraph;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,16 +18,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MainWindow extends JPanel {
+public class TSPProblem extends JPanel {
 
-    public MainWindow(){
+    private UndirectedGraph graph;
+    private UndirectedGraphPanel graphPanel;
+
+    public TSPProblem(){
         super.setLayout(new BorderLayout());
+        setGraphPanel();
+    }
+
+    private void setGraphPanel(){
+        graph = new UndirectedGraph();
+        graphPanel = new UndirectedGraphPanel(graph);
+        graphPanel.setPreferredSize(new Dimension(4096, 4096));
+
+        JScrollPane scroll = new JScrollPane();
+        scroll.setViewportView(graphPanel);
+        scroll.setPreferredSize(new Dimension(750, 500));
+        scroll.getViewport().setViewPosition(new Point(0, 0));
+        add(scroll, BorderLayout.CENTER);
         setTopPanel();
         setButtons();
     }
 
     private void setTopPanel() {
-        JLabel info = new JLabel("Dijkstra Shortest Path Problem & DP TSP Problem by MAS");
+        JLabel info = new JLabel("DP TSP Visualiser by MAS");
         info.setForeground(new Color(230, 220, 250));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(130, 50, 250));
@@ -34,12 +53,8 @@ public class MainWindow extends JPanel {
     }
 
     private void setButtons(){
-        JButton runPathFinder = new JButton();
-        setupIcon(runPathFinder, "run");
-        runPathFinder.setToolTipText("run path finder");
-        JButton runTSP = new JButton();
-        setupIcon(runTSP, "run1");
-        runTSP.setToolTipText("run TSP solver");
+        JButton run = new JButton();
+        setupIcon(run, "run1");
         JButton reset = new JButton();
         setupIcon(reset, "reset");
         final JButton info = new JButton();
@@ -47,9 +62,16 @@ public class MainWindow extends JPanel {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(PathFindingDrawUtils.parseColor("#DDDDDD"));
-        buttonPanel.add(runPathFinder);
+        buttonPanel.add(reset);
+        buttonPanel.add(run);
         buttonPanel.add(info);
-        buttonPanel.add(runTSP);
+
+        reset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                graphPanel.reset();
+            }
+        });
 
         info.addActionListener(new ActionListener() {
             @Override
@@ -67,27 +89,16 @@ public class MainWindow extends JPanel {
             }
         });
 
-        runTSP.addActionListener(new ActionListener() {
+        run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame j = new JFrame();
-                j.setTitle("Path finding by Dijkstra Algorithm");
-
-                j.setSize(new Dimension(900, 600));
-                j.add(new TSPProblem());
-                j.setVisible(true);
-            }
-        });
-        
-        runPathFinder.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame j = new JFrame();
-                j.setTitle("Path finding by Dijkstra Algorithm");
-
-                j.setSize(new Dimension(900, 600));
-                j.add(new PathFindingProblem());
-                j.setVisible(true);
+                DPAlgorithmTSP DPAlgorithmTSP = new DPAlgorithmTSP(graph);
+                try{
+                    DPAlgorithmTSP.run();
+                    graphPanel.setPath(DPAlgorithmTSP.getPath());
+                } catch (IllegalStateException ise){
+                    JOptionPane.showMessageDialog(null, ise.getMessage());
+                }
             }
         });
 

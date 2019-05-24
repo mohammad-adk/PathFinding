@@ -8,7 +8,7 @@
 package algo;
 
 import models.DirectedEdge;
-import models.Graph;
+import models.DirectedGraph;
 import models.Node;
 
 import java.util.*;
@@ -17,7 +17,7 @@ public class DijkstraAlgorithm {
     private boolean safe = false;
     private String message = null;
 
-    private Graph graph;
+    private DirectedGraph graph;
     private Map<Node, Node> predecessors;
     private Map<Node, Integer> distances;
 
@@ -31,7 +31,7 @@ public class DijkstraAlgorithm {
         }
     };
 
-    public DijkstraAlgorithm(Graph graph){
+    public DijkstraAlgorithm(DirectedGraph graph){
         this.graph = graph;
         predecessors = new HashMap<>();
         distances = new HashMap<>();

@@ -8,8 +8,8 @@
 package models;
 
 public class Edge {
-    private Node source;
-    private Node destination;
+    protected Node source;
+    protected Node destination;
     private int weight = 1;
 
     public Edge(Node source, Node destination){

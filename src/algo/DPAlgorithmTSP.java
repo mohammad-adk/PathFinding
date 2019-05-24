@@ -12,6 +12,7 @@ public class DPAlgorithmTSP {
     private boolean safe = false;
     private String message = null;
 
+    private UndirectedGraph graph;
     private double[][] distance;
     private Map<Integer, Node> nodes;
     private double minTourCost = Double.POSITIVE_INFINITY;
@@ -19,16 +20,17 @@ public class DPAlgorithmTSP {
     private List<Node> path = new ArrayList<>();
     private boolean ranSolver = false;
 
-    public DPAlgorithmTSP(Graph graph) {
+    public DPAlgorithmTSP(UndirectedGraph graph) {
         this(graph.getSource(), graph);
     }
 
-    public DPAlgorithmTSP(Node startNode, Graph graph) {
+    public DPAlgorithmTSP(Node startNode, UndirectedGraph graph) {
+        this.graph = graph;
         N = graph.getNodes().size();
         Map<Node, Integer> tempNodes = new HashMap<>();
         nodes = new HashMap<>();
         distance = new double[N][N];
-        for (double[] row : distance) java.util.Arrays.fill(row, Integer.MAX_VALUE);
+        for(double[] row : distance) java.util.Arrays.fill(row, Integer.MAX_VALUE);
         int i = 0; 
         for(Node node : graph.getNodes()){
             tempNodes.put(node, i);
@@ -36,11 +38,10 @@ public class DPAlgorithmTSP {
             i++;
         }
         
-        for(DirectedEdge edge : graph.getEdges()){
+        for(Edge edge : graph.getEdges()){
             i = tempNodes.get(edge.getSourceNode());
             int j = tempNodes.get(edge.getDestinationNode());
-            distance[i][j] = edge.getWeight(1);
-            distance[j][i] = edge.getWeight(2);
+            distance[i][j] = distance[j][i] = edge.getWeight();
         }
         
         START_NODE = tempNodes.get(startNode);
@@ -53,7 +54,7 @@ public class DPAlgorithmTSP {
         FINISHED_STATE = (1 << N) - 1;
     }
     
-    private boolean evaluate(Graph graph){
+    private boolean evaluate(UndirectedGraph graph){
         if(N <= 2){
             message = "TSP on 0, 1 or 2 nodes doesn't make sense.";
             return false;
@@ -109,6 +110,7 @@ public class DPAlgorithmTSP {
             index = nextIndex;
         }
         ranSolver = true;
+        graph.setSolved(true);
     }
 
     private double tsp(int i, int state, Double[][] memo, Integer[][] prev) {
