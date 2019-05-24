@@ -109,6 +109,7 @@ public class DPAlgorithmTSP {
             state = nextState;
             index = nextIndex;
         }
+        path.add(nodes.get(START_NODE));
         ranSolver = true;
         graph.setSolved(true);
     }
