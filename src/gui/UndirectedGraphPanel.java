@@ -107,20 +107,8 @@ public class UndirectedGraphPanel extends JPanel implements MouseListener, Mouse
                 path = selected.getPath();
                 repaint();
                 return;
-            } else if(e.isShiftDown()){
-                if(SwingUtilities.isLeftMouseButton(e)){
-                    if(!graph.isDestination(selected))
-                        graph.setSource(selected);
-                    else
-                        JOptionPane.showMessageDialog(null, "Destination can't be set as Source");
-                } else if(SwingUtilities.isRightMouseButton(e)) {
-                    if(!graph.isSource(selected))
-                        graph.setDestination(selected);
-                    else
-                        JOptionPane.showMessageDialog(null, "Source can't be set as Destination");
-                }else
-                    return;
-
+            } else if(SwingUtilities.isRightMouseButton(e)){
+                graph.setSource(selected);
                 graph.setSolved(false);
                 repaint();
                 return;

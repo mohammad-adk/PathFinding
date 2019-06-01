@@ -81,10 +81,8 @@ public class TSPProblem extends JPanel {
                         "Drag from node to node to create an edge\n" +
                         "Click on edges to set the weight\n\n" +
                         "Combinations:\n" +
-                        "Shift + Left Click       :    Set node as source\n" +
-                        "Shift + Right Click     :    Set node as destination\n" +
+                        "Right Click       :    Set node as source\n" +
                         "Ctrl  + Drag               :    Reposition Node\n" +
-                        "Ctrl  + Click                :    Get Path of Node\n" +
                         "Ctrl  + Shift + Click   :    Delete Node/Edge\n");
             }
         });

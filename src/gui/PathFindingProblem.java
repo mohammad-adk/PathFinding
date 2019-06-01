@@ -84,7 +84,6 @@ public class PathFindingProblem extends JPanel {
                         "Shift + Left Click       :    Set node as source\n" +
                         "Shift + Right Click     :    Set node as destination\n" +
                         "Ctrl  + Drag               :    Reposition Node\n" +
-                        "Ctrl  + Click                :    Get Path of Node\n" +
                         "Ctrl  + Shift + Click   :    Delete Node/Edge\n");
             }
         });
