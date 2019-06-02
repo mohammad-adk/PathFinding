@@ -152,7 +152,13 @@ public class UndirectedGraphPanel extends JPanel implements MouseListener, Mouse
                 e.getY() - PathFindingDrawUtils.getRadius() <= 0 )
             return;
         
-        graph.addNode(e.getPoint());
+        Node temp = graph.addNode(e.getPoint());
+        for (Node node : graph.getNodes()) {
+            if(node.getCoord()!=temp.getCoord()){
+                Edge new_edge = new Edge(temp, node);
+                graph.addEdge(new_edge);
+            }
+        }
         graph.setSolved(false);
         repaint();
     }

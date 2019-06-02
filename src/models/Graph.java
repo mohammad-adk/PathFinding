@@ -73,16 +73,17 @@ public class Graph<T> {
         return node == destination;
     }
 
-    public void addNode(Point coord){
+    public Node addNode(Point coord){
         Node node = new Node(coord);
-        addNode(node);
+        return addNode(node);
     }
 
-    public void addNode(Node node){
+    public Node addNode(Node node){
         node.setId(count++);
         nodes.add(node);
         if(node.getId()==1)
             source = node;
+        return node;
     }
 
     public void addEdge(T new_edge){}
